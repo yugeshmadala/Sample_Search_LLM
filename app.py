@@ -22,8 +22,8 @@ Try more LangChain 🤝 Streamlit Agent examples at [github.com/langchain-ai/str
 """
 
 st.sidebar.title("settings")
-api_key=st.sidebar.text_input("Enter Your API Key",type='password')
-#api_key = st.secrets["GROQ_API_KEY"] if "GROQ_API_KEY" in st.secrets else os.getenv("GROQ_API_KEY")
+#api_key=st.sidebar.text_input("Enter Your API Key",type='password')
+api_key = st.secrets["GROQ_API_KEY"] 
 
 if "messages" not in st.session_state:
     st.session_state["messages"]=[
