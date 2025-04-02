@@ -7,10 +7,10 @@ from langchain.agents import initialize_agent,AgentType
 from langchain.callbacks import StreamlitCallbackHandler
 from dotenv import load_dotenv
 
-arxiv_wrapper=ArxivAPIWrapper(top_k_results=1,doc_content_chars_max=300)
+arxiv_wrapper=ArxivAPIWrapper(top_k_results=1,doc_content_chars_max=1000)
 arxiv=ArxivQueryRun(api_wrapper=arxiv_wrapper)
 
-wiki_wrapper=WikipediaAPIWrapper(top_k_results=1,doc_content_chars_max=300)
+wiki_wrapper=WikipediaAPIWrapper(top_k_results=1,doc_content_chars_max=1000)
 wiki=WikipediaQueryRun(api_wrapper=wiki_wrapper)
 
 #search=DuckDuckGoSearchRun(name='search')
@@ -40,10 +40,10 @@ if prompt:=st.chat_input(placeholder="What is machine learning?"):
     tools=[wiki,arxiv]
     
 
-    search_agent=initialize_agent(tools,llm,agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION,handle_parsing_errors=True,max_iterations=3)
+    search_agent=initialize_agent(tools,llm,agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION,handle_parsing_errors=True)
 
     with st.chat_message("assistant"):
-        st_cb=StreamlitCallbackHandler(st.container(),expand_new_thoughts=False)
+        st_cb=StreamlitCallbackHandler(st.container(),expand_new_thoughts=True)
         response=search_agent.run(st.session_state.messages,callbacks=[st_cb])
         st.session_state.messages.append({'role':'assistant',"content":response})
         st.write(response)
