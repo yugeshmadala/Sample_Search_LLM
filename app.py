@@ -14,12 +14,6 @@ wiki_wrapper=WikipediaAPIWrapper(top_k_results=1,doc_content_chars_max=300)
 wiki=WikipediaQueryRun(api_wrapper=wiki_wrapper)
 
 #search=DuckDuckGoSearchRun(name='search')
-try:
-    search = DuckDuckGoSearchRun(name="search")
-except Exception as e:
-    st.warning("DuckDuckGo Search is temporarily unavailable due to rate limits.")
-    search = None
-
 st.title("🔎 LangChain - Chat with search")
 """
 In this example, we're using `StreamlitCallbackHandler` to display the thoughts and actions of an agent in an interactive Streamlit app.
@@ -44,8 +38,7 @@ if prompt:=st.chat_input(placeholder="What is machine learning?"):
 
     llm=ChatGroq(groq_api_key=api_key,model_name="Llama3-8b-8192",streaming=True)
     tools=[search,arxiv]
-    if search:  
-       tools.append(search)
+    
 
     search_agent=initialize_agent(tools,llm,agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION,handle_parsing_errors=True)
 
